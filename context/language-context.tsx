@@ -147,6 +147,29 @@ const translations = {
       email: "Your Email",
       message: "Your Message",
       send: "Send Message",
+      form: {
+        title: "Send Me a Message",
+        name: "Your Name",
+        email: "Your Email",
+        subject: "Subject",
+        message: "Your Message",
+        send: "Send Message",
+        sending: "Sending...",
+      },
+      toast: {
+        success: {
+          title: "✅ Message Sent Successfully!",
+          description: "Thank you for reaching out. I'll get back to you within 24 hours.",
+        },
+        error: {
+          title: "❌ Failed to Send Message",
+          description: "Please try again or email me directly at nugrahaagil13@gmail.com",
+        },
+        fallback: {
+          title: "Opening email client...",
+          description: "Your default email app will open to send the message.",
+        },
+      },
       sending: "Sending...",
       success: "Message sent successfully!",
       error: "Failed to send message. Please try again.",
@@ -249,6 +272,29 @@ const translations = {
       email: "Email Anda",
       message: "Pesan Anda",
       send: "Kirim Pesan",
+      form: {
+        title: "Kirim Pesan",
+        name: "Nama Anda",
+        email: "Email Anda",
+        subject: "Subjek",
+        message: "Pesan Anda",
+        send: "Kirim Pesan",
+        sending: "Mengirim...",
+      },
+      toast: {
+        success: {
+          title: "✅ Pesan Berhasil Terkirim!",
+          description: "Terima kasih telah menghubungi. Saya akan membalas dalam 24 jam.",
+        },
+        error: {
+          title: "❌ Gagal Mengirim Pesan",
+          description: "Silakan coba lagi atau email saya langsung di nugrahaagil13@gmail.com",
+        },
+        fallback: {
+          title: "Membuka aplikasi email...",
+          description: "Aplikasi email default Anda akan terbuka untuk mengirim pesan.",
+        },
+      },
       sending: "Mengirim...",
       success: "Pesan berhasil dikirim!",
       error: "Gagal mengirim pesan. Silakan coba lagi.",

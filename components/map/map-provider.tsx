@@ -27,6 +27,13 @@ export function MapProvider({
 
   useEffect(() => {
     if (!mapContainerRef.current || map.current) return
+    
+    // Check if container already has a map instance
+    const container = mapContainerRef.current
+    if ((container as any)._leaflet_id) {
+      console.warn("Map container already initialized, skipping...")
+      return
+    }
 
     // Dynamic import Leaflet (client-side only)
     const initMap = async () => {
@@ -44,7 +51,7 @@ export function MapProvider({
         })
 
         // Initialize Leaflet map
-        map.current = L.map(mapContainerRef.current!, {
+        map.current = L.map(container, {
           center: [initialViewState.latitude, initialViewState.longitude],
           zoom: initialViewState.zoom,
           zoomControl: true,
