@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { ArrowRight, Github, Linkedin, Mail, GitlabIcon as Gitlab } from "lucide-react"
 
@@ -13,8 +15,10 @@ import { ScrollProgress } from "@/components/scroll-progress"
 import { SectionHeading } from "@/components/section-heading"
 import { GlassmorphicCard } from "@/components/glassmorphic-card"
 import { LocationMap } from "@/components/map/location-map"
+import { useLanguage } from "@/context/language-context"
 
 export default function Portfolio() {
+  const { t } = useLanguage()
   return (
     <div className="min-h-screen bg-gradient-to-b from-zinc-900 via-zinc-900 to-black text-white overflow-hidden">
       <MouseFollower />
@@ -38,19 +42,19 @@ export default function Portfolio() {
               </div>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
-              <span className="block">Hi, I'm</span>
+              <span className="block">{t("hero.greeting")}</span>
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
                 Agil Nugraha
               </span>
             </h1>
             <p className="text-xl text-zinc-400 max-w-[600px]">
-              Fullstack Developer with 5+ years of experience in enterprise system administration and geospatial application development. Specialized in building scalable web applications with modern tech stacks.
+              {t("hero.description")}
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
               <Link href="#projects">
                 <Button className="relative overflow-hidden group bg-gradient-to-r from-purple-500 to-pink-500 border-0">
                   <span className="relative z-10 flex items-center">
-                    View Projects <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    {t("hero.cta")} <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </span>
                   <span className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                 </Button>
@@ -60,7 +64,7 @@ export default function Portfolio() {
                   variant="outline"
                   className="border-zinc-700 text-zinc-300 hover:text-white hover:border-zinc-500"
                 >
-                  Contact Me
+                  {t("contact.title")}
                 </Button>
               </Link>
             </div>
@@ -127,7 +131,7 @@ export default function Portfolio() {
         </div>
 
         <div className="container relative z-10">
-          <SectionHeading title="About Me" subtitle="My background and journey" />
+          <SectionHeading title={t("about.title")} subtitle={t("about.intro")} />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mt-16">
             <div className="relative">
@@ -151,13 +155,13 @@ export default function Portfolio() {
             <div className="space-y-6">
               <GlassmorphicCard>
                 <p className="text-lg text-zinc-300">
-                  Fullstack Developer with 5+ years of experience in enterprise system administration and geospatial application development. Specialized in building scalable web applications using modern tech stacks (React.js, Express.js, Next.js, Vue.js) with geospatial data processing capabilities.
+                  {t("about.paragraph1")}
                 </p>
                 <p className="text-lg text-zinc-300 mt-4">
-                  Proven track record in API integration, microservices architecture, CI/CD implementation, and managing complex database systems (PostgreSQL, PostGIS). Former Linux/Windows System Administrator at IBM with expertise in infrastructure management, security operations, and performance optimization.
+                  {t("about.paragraph2")}
                 </p>
                 <p className="text-lg text-zinc-300 mt-4">
-                  Currently working at Badan Informasi Geospasial (Geospatial Information Agency) as fullstack developer handling development of multiple geospatial applications and API integrations for Indonesia's national geospatial data systems.
+                  {t("about.paragraph3")}
                 </p>
 
                 <div className="grid grid-cols-2 gap-4 mt-8">
@@ -202,7 +206,7 @@ export default function Portfolio() {
         </div>
 
         <div className="container relative z-10">
-          <SectionHeading title="My Skills" subtitle="Technologies I work with" />
+          <SectionHeading title={t("skills.title")} subtitle={t("skills.subtitle")} />
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-16">
             <SkillBadge name="JavaScript" level={95} />
@@ -237,54 +241,54 @@ export default function Portfolio() {
         </div>
 
         <div className="container relative z-10">
-          <SectionHeading title="Featured Projects" subtitle="Some of my recent work" />
+          <SectionHeading title={t("projects.title")} subtitle={t("projects.subtitle")} />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
             <ProjectCard
-              title="SIPULAU - Island Information System"
-              description="Developed new features and resolved critical bugs for Indonesia's island information system with modern API integration."
+              title={t("projects.sipulau.title")}
+              description={t("projects.sipulau.description")}
               tags={["Next.js", "Vue.js", "DirectUS", "PostgreSQL", "Mapbox", "Docker"]}
               images={["/projects/sipulau1.png?height=400&width=600", "/projects/sipulau2.png?height=400&width=600", "/projects/sipulau3.png?height=400&width=600"]}
               demoUrl="https://sipulau.big.go.id"
             />
             <ProjectCard
-              title="Kebijakan Satu Peta (KSP) - OneMap Development"
-              description="Developed and maintained OneMap portal for Indonesia's geospatial data integration policy."
+              title={t("projects.onemap.title")}
+              description={t("projects.onemap.description")}
               tags={["PHP", "CodeIgniter 3", "PostgreSQL", "PostGIS", "GeoServer", "Docker"]}
               images={["/projects/onemap1.png?height=400&width=600", "/projects/onemap2.png?height=400&width=600", "/projects/onemap3.png?height=400&width=600"]}
               demoUrl="https://onemap.big.go.id"
             />
             <ProjectCard
-              title="KSP Integration Platform"
-              description="Built full-stack geospatial integration platform from scratch with secure authentication, cloud storage, and message queue system."
+              title={t("projects.integration.title")}
+              description={t("projects.integration.description")}
               tags={["React.js", "Express.js", "Apache Kafka", "MinIO", "reCAPTCHA", "2FA"]}
               images={["/projects/integ1.png?height=400&width=600", "/projects/integ2.png?height=400&width=600", "/projects/integ3.png?height=400&width=600"]}
               demoUrl="https://integrasi.big.go.id"
             />
             <ProjectCard
-              title="SIBATNAS - National Bathymetry System"
-              description="Integrated national bathymetry system with server infrastructure for efficient geospatial data processing."
+              title={t("projects.sibatnas.title")}
+              description={t("projects.sibatnas.description")}
               tags={["React.js", "Express.js", "Redux", "PostgreSQL", "PostGIS", "GeoServer"]}
               images={["/projects/sibatnas1.png?height=400&width=600", "/projects/sibatnas2.png?height=400&width=600", "/projects/sibatnas3.png?height=400&width=600"]}
               demoUrl="https://sibatnas.big.go.id"
             />
             <ProjectCard
-              title="Geoportal JIGN (Palapa v5)"
-              description="Designed CI/CD pipeline and enhanced geospatial service integration for BIG's main geoportal platform."
+              title={t("projects.palapa.title")}
+              description={t("projects.palapa.description")}
               tags={["React.js", "Express.js", "PostgreSQL", "PostGIS", "Docker"]}
               images={["/projects/palapa1.png?height=400&width=600", "/projects/palapa2.png?height=400&width=600", "/projects/palapa3.png?height=400&width=600"]}
               demoUrl="https://geodev.big.go.id"
             />
             <ProjectCard
-              title="SINAR Web & Mobile"
-              description="Performed debugging and optimization for geospatial web platform and managed mobile app deployment."
+              title={t("projects.sinar.title")}
+              description={t("projects.sinar.description")}
               tags={["PHP", "CodeIgniter 3", "PostgreSQL", "PostGIS", "Codemagic", "Mobile"]}
               images={["/projects/sinar1.png?height=400&width=600", "/projects/sinar2.png?height=400&width=600", "/projects/sinar3.png?height=400&width=600"]}
               demoUrl="https://sinar.big.go.id"
             />
             <ProjectCard
-              title="Portfolio Website"
-              description="This portfolio website showcasing my geospatial development expertise and projects."
+              title={t("projects.portfolio.title")}
+              description={t("projects.portfolio.description")}
               tags={["Next.js", "TailwindCSS", "Framer Motion", "TypeScript", "Leaflet"]}
               images={["/projects/porto1.png?height=400&width=600", "/projects/porto2.png?height=400&width=600"]}
               demoUrl="https://vercel.app"
@@ -301,7 +305,7 @@ export default function Portfolio() {
         </div>
 
         <div className="container relative z-10">
-          <SectionHeading title="Work Experience" subtitle="My professional journey" />
+          <SectionHeading title={t("experience.title")} subtitle={t("experience.subtitle")} />
 
           <div className="mt-16">
             <Timeline />
@@ -388,7 +392,7 @@ export default function Portfolio() {
         </div>
 
         <div className="container relative z-10">
-          <SectionHeading title="Get In Touch" subtitle="Let's work together" />
+          <SectionHeading title={t("contact.title")} subtitle={t("contact.subtitle")} />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mt-16">
             <GlassmorphicCard>

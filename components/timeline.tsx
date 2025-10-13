@@ -2,33 +2,32 @@
 
 import { motion } from "framer-motion"
 import { useMobile } from "@/hooks/use-mobile"
-
-const experiences = [
-  {
-    title: "Fullstack Application Developer",
-    company: "Badan Informasi Geospasial (Geospatial Information Agency)",
-    period: "February 2023 - Present",
-    description:
-      "fullstack development of multiple geospatial applications, API integrations, and infrastructure improvements for Indonesia's national geospatial data systems. Built scalable applications using React.js, Next.js, Vue.js, Express.js, PostgreSQL, and Docker.",
-  },
-  {
-    title: "Linux & Windows System Administrator",
-    company: "IBM Indonesia (Prudential Account)",
-    period: "April 2020 - January 2023",
-    description:
-      "Managed enterprise-level Linux and Windows server infrastructure for Prudential's critical systems. Handled VMware virtualization, security operations using Splunk SIEM, endpoint security with McAfee and Cybereason, and ITIL-based service management.",
-  },
-  {
-    title: "Data Center Operator",
-    company: "PT. Jasa Teknologi Informasi IBM",
-    period: "December 2019 - April 2020",
-    description:
-      "Managed 24/7 data center operations ensuring optimal facility performance and system availability. Monitored power systems, server health metrics, performed backups, and managed incident tickets following DCMS procedures.",
-  },
-]
+import { useLanguage } from "@/context/language-context"
 
 export function Timeline() {
   const isMobile = useMobile()
+  const { t } = useLanguage()
+  
+  const experiences = [
+    {
+      title: t("experience.big.title"),
+      company: t("experience.big.company"),
+      period: t("experience.big.period"),
+      description: t("experience.big.description"),
+    },
+    {
+      title: t("experience.ibm.title"),
+      company: t("experience.ibm.company"),
+      period: t("experience.ibm.period"),
+      description: t("experience.ibm.description"),
+    },
+    {
+      title: t("experience.dcop.title"),
+      company: t("experience.dcop.company"),
+      period: t("experience.dcop.period"),
+      description: t("experience.dcop.description"),
+    },
+  ]
 
   return (
     <div

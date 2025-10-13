@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { LanguageProvider } from '@/context/language-context'
 
 export const metadata: Metadata = {
-  title: 'porto-agil',
-  description: 'Created for my Portofolio',
-  generator: 'porto.dev',
+  title: 'Nugraha FX - Geospatial Full Stack Developer',
+  description: 'Portfolio of Nugraha FX - Geospatial Full Stack Developer specializing in web development and GIS solutions',
+  generator: 'Next.js',
 }
 
 export default function RootLayout({
@@ -14,7 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
+      </body>
     </html>
   )
 }

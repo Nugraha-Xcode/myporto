@@ -7,11 +7,14 @@ import { Menu, X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { useMobile } from "@/hooks/use-mobile"
+import { useLanguage } from "@/context/language-context"
+import { LanguageToggle } from "@/components/language-toggle"
 
 export function FloatingNav() {
   const [isVisible, setIsVisible] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const isMobile = useMobile()
+  const { t } = useLanguage()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,11 +30,11 @@ export function FloatingNav() {
   }, [])
 
   const navItems = [
-    { name: "About", href: "#about" },
-    { name: "Skills", href: "#skills" },
-    { name: "Projects", href: "#projects" },
-    { name: "Experience", href: "#experience" },
-    { name: "Contact", href: "#contact" },
+    { name: "nav.about", href: "#about" },
+    { name: "nav.skills", href: "#skills" },
+    { name: "nav.projects", href: "#projects" },
+    { name: "nav.experience", href: "#experience" },
+    { name: "nav.contact", href: "#contact" },
   ]
 
   const handleNavClick = () => {
@@ -80,9 +83,10 @@ export function FloatingNav() {
                   className="px-3 py-1 text-sm font-medium text-zinc-400 hover:text-white transition-colors"
                   onClick={handleNavClick}
                 >
-                  {item.name}
+                  {t(item.name)}
                 </Link>
               ))}
+              <LanguageToggle />
               <Link 
                 href="https://drive.google.com/file/d/1tyNVihT6QqPpnqb_63loIsK57v1Cvbhb/view?usp=sharing"
                 target="_blank"
@@ -92,7 +96,7 @@ export function FloatingNav() {
                   size="sm"
                   className="ml-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-pink-500 hover:to-purple-500 border-0"
                 >
-                  Resume
+                  {t("nav.resume")}
                 </Button>
               </Link>
             </div>
@@ -117,16 +121,19 @@ export function FloatingNav() {
                 className="px-8 py-4 text-2xl font-medium text-white hover:text-purple-400 transition-colors"
                 onClick={handleNavClick}
               >
-                {item.name}
+                {t(item.name)}
               </Link>
             ))}
+            <div className="mt-4">
+              <LanguageToggle />
+            </div>
             <Link 
               href="https://drive.google.com/file/d/1tyNVihT6QqPpnqb_63loIsK57v1Cvbhb/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Button className="mt-6 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-pink-500 hover:to-purple-500 border-0">
-                Resume
+                {t("nav.resume")}
               </Button>
             </Link>
           </div>
