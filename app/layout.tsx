@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { LanguageProvider } from '@/context/language-context'
 import { Toaster } from '@/components/ui/toaster'
+import { SplashScreen } from '@/components/splash-screen'
 
 export const metadata: Metadata = {
   title: 'Nugraha FX - Geospatial Full Stack Developer',
@@ -17,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <SplashScreen />
         <LanguageProvider>
           {children}
           <Toaster />
