@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useMemo, useState, Suspense } from "react"
-import { Canvas, useFrame, useLoader } from "@react-three/fiber"
+import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
 import { OrbitControls, Sphere, Html } from "@react-three/drei"
 import * as THREE from "three"
 
@@ -17,22 +17,49 @@ const PROFILE_LABELS = [
   { name: "S.T", icon: "🎓", color: "#f59e0b", description: "Information Technology" },
 ]
 
-function RotatingLabel({ label, index, total, onHover }: { 
+function RotatingLabel({ label, index, total, onHover, densityMode }: { 
   label: typeof PROFILE_LABELS[0], 
   index: number, 
   total: number,
-  onHover: (label: typeof PROFILE_LABELS[0] | null) => void
+  onHover: (label: typeof PROFILE_LABELS[0] | null) => void,
+  densityMode: boolean
 }) {
   const ref = useRef<THREE.Group>(null)
   const [hovered, setHovered] = useState(false)
+  const [opacity, setOpacity] = useState(1)
+  const { camera } = useThree()
 
   useFrame((state) => {
     if (ref.current) {
       const angle = (index / total) * Math.PI * 2 + state.clock.elapsedTime * 0.3
-      const radius = 3.5
+      const radius = 4.5
       ref.current.position.x = Math.cos(angle) * radius
       ref.current.position.z = Math.sin(angle) * radius
       ref.current.position.y = Math.sin(state.clock.elapsedTime * 0.5 + index) * 0.5
+      
+      const labelWorldPos = new THREE.Vector3()
+      ref.current.getWorldPosition(labelWorldPos)
+      
+      const globeToLabel = labelWorldPos.clone().normalize()
+      const cameraToLabel = labelWorldPos.clone().sub(camera.position).normalize()
+      const cameraDir = new THREE.Vector3(0, 0, 0).sub(camera.position).normalize()
+      const visibilityDot = globeToLabel.dot(cameraDir)
+      
+      let calculatedOpacity = 1
+      
+      if (visibilityDot > 0.1) {
+        if (densityMode) {
+          calculatedOpacity = THREE.MathUtils.mapLinear(visibilityDot, 0.1, 1, 0.7, 0.4)
+        } else {
+          calculatedOpacity = THREE.MathUtils.mapLinear(visibilityDot, 0.1, 1, 0.3, 0)
+        }
+      } else {
+        const angleFactor = THREE.MathUtils.mapLinear(visibilityDot, -1, 0.1, 1, 0.8)
+        calculatedOpacity = angleFactor
+      }
+      
+      calculatedOpacity = THREE.MathUtils.clamp(calculatedOpacity, 0, 1)
+      setOpacity(calculatedOpacity)
     }
   })
 
@@ -42,9 +69,10 @@ function RotatingLabel({ label, index, total, onHover }: {
         center
         distanceFactor={8}
         style={{
-          transition: "all 0.2s",
-          opacity: hovered ? 1 : 0.8,
+          transition: "opacity 0.3s ease-out, transform 0.2s",
+          opacity: hovered ? 1 : opacity,
           transform: hovered ? "scale(1.2)" : "scale(1)",
+          pointerEvents: opacity < 0.3 ? "none" : "auto",
         }}
       >
         <div
@@ -290,6 +318,7 @@ function Scene() {
           index={index}
           total={PROFILE_LABELS.length}
           onHover={setHoveredLabel}
+          densityMode={densityMode}
         />
       ))}
       
