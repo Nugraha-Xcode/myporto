@@ -329,7 +329,7 @@ export default function Portfolio() {
               <h3 className="text-2xl font-bold mb-6 text-purple-400">Education</h3>
               <div className="space-y-4">
                 <div className="border-l-4 border-purple-500 pl-4">
-                  <h4 className="text-lg font-semibold">Bachelor of Information Technology (S.Kom)</h4>
+                  <h4 className="text-lg font-semibold">Bachelor of Information Technology (S.T)</h4>
                   <p className="text-zinc-400">Sekolah Tinggi Teknik PLN, Jakarta</p>
                   <p className="text-sm text-zinc-500">July 2015 - August 2019</p>
                   <p className="text-sm text-zinc-400 mt-2">GPA: 3.63/4.00</p>
