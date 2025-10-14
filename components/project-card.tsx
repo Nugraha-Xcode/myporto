@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import Link from "next/link"
 import { ArrowUpRight, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react"
 import { motion } from "framer-motion"
@@ -21,6 +21,8 @@ export function ProjectCard({ title, description, tags, images, demoUrl }: Proje
   const [isHovered, setIsHovered] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const touchStartX = useRef<number | null>(null)
+  const touchEndX = useRef<number | null>(null)
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length)
@@ -36,6 +38,33 @@ export function ProjectCard({ title, description, tags, images, demoUrl }: Proje
 
   const closeModal = () => {
     setIsModalOpen(false)
+  }
+
+  // Touch handlers for swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return
+    
+    const distance = touchStartX.current - touchEndX.current
+    const isLeftSwipe = distance > 50
+    const isRightSwipe = distance < -50
+
+    if (isLeftSwipe && images.length > 1) {
+      nextImage()
+    }
+    if (isRightSwipe && images.length > 1) {
+      prevImage()
+    }
+
+    touchStartX.current = null
+    touchEndX.current = null
   }
 
   return (
@@ -62,6 +91,9 @@ export function ProjectCard({ title, description, tags, images, demoUrl }: Proje
             <div 
               className="relative w-full h-full cursor-pointer"
               onClick={openModal}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
             >
               <img
                 src={images[currentImageIndex] || "/placeholder.svg"}
@@ -86,7 +118,7 @@ export function ProjectCard({ title, description, tags, images, demoUrl }: Proje
                     e.stopPropagation()
                     prevImage()
                   }}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 z-30 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover/carousel:opacity-100 transition-opacity"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 z-30 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-100 md:opacity-0 md:group-hover/carousel:opacity-100 transition-opacity"
                 >
                   <ChevronLeft className="h-4 w-4" />
                 </button>
@@ -96,7 +128,7 @@ export function ProjectCard({ title, description, tags, images, demoUrl }: Proje
                     e.stopPropagation()
                     nextImage()
                   }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 z-30 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover/carousel:opacity-100 transition-opacity"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 z-30 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-100 md:opacity-0 md:group-hover/carousel:opacity-100 transition-opacity"
                 >
                   <ChevronRight className="h-4 w-4" />
                 </button>

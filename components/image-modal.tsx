@@ -1,7 +1,7 @@
 "use client"
 
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 interface ImageModalProps {
   images: string[]
@@ -13,6 +13,9 @@ interface ImageModalProps {
 }
 
 export function ImageModal({ images, currentIndex, onClose, onNext, onPrev, title }: ImageModalProps) {
+  const touchStartX = useRef<number | null>(null)
+  const touchEndX = useRef<number | null>(null)
+
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyboard = (e: KeyboardEvent) => {
@@ -31,6 +34,33 @@ export function ImageModal({ images, currentIndex, onClose, onNext, onPrev, titl
       document.body.style.overflow = "unset"
     }
   }, [])
+
+  // Touch handlers for swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return
+    
+    const distance = touchStartX.current - touchEndX.current
+    const isLeftSwipe = distance > 50
+    const isRightSwipe = distance < -50
+
+    if (isLeftSwipe && images.length > 1) {
+      onNext()
+    }
+    if (isRightSwipe && images.length > 1) {
+      onPrev()
+    }
+
+    touchStartX.current = null
+    touchEndX.current = null
+  }
 
   return (
     <div 
@@ -79,6 +109,9 @@ export function ImageModal({ images, currentIndex, onClose, onNext, onPrev, titl
       <div 
         className="relative max-w-7xl max-h-[90vh] w-full"
         onClick={(e) => e.stopPropagation()}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         <img
           src={images[currentIndex]}
@@ -106,13 +139,18 @@ export function ImageModal({ images, currentIndex, onClose, onNext, onPrev, titl
           <span className="text-zinc-300">Close</span>
         </div>
         {images.length > 1 && (
-          <div className="flex items-center gap-2">
-            <div className="flex gap-1">
-              <kbd className="px-2 py-1 bg-white/20 rounded font-mono text-xs">←</kbd>
-              <kbd className="px-2 py-1 bg-white/20 rounded font-mono text-xs">→</kbd>
+          <>
+            <div className="hidden md:flex items-center gap-2">
+              <div className="flex gap-1">
+                <kbd className="px-2 py-1 bg-white/20 rounded font-mono text-xs">←</kbd>
+                <kbd className="px-2 py-1 bg-white/20 rounded font-mono text-xs">→</kbd>
+              </div>
+              <span className="text-zinc-300">Navigate</span>
             </div>
-            <span className="text-zinc-300">Navigate</span>
-          </div>
+            <div className="flex items-center gap-2 md:hidden">
+              <span className="text-zinc-300">👈 Swipe to navigate</span>
+            </div>
+          </>
         )}
       </div>
     </div>
